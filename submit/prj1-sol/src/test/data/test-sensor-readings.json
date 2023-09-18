@@ -1,0 +1,124 @@
+{
+  "sensorTypes": [
+    {
+      "id": "ge100",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-100",
+      "quantity": "temperature",
+      "unit": "C",
+      "min": "10",
+      "max": "100"
+    }
+  ],
+  "sensors": [
+    {
+      "id": "s100",
+      "sensorTypeId": "ge100",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    }
+  ],
+  "sensorReadings": [
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540190",
+      "value": "12"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540180",
+      "value": "11"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540170",
+      "value": "10"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540160",
+      "value": "9"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540150",
+      "value": "8"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540140",
+      "value": "12"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540130",
+      "value": "11"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540120",
+      "value": "10"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540110",
+      "value": "9"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540100",
+      "value": "8"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540090",
+      "value": "12"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540080",
+      "value": "11"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540070",
+      "value": "10"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540060",
+      "value": "9"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540050",
+      "value": "8"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540040",
+      "value": "12"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540030",
+      "value": "11"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540020",
+      "value": "10"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540010",
+      "value": "9"
+    },
+    {
+      "sensorId": "s100",
+      "timestamp": "1693540000",
+      "value": "8"
+    }
+  ]
+}
