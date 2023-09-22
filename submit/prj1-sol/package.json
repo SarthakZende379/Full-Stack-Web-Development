@@ -1,12 +1,39 @@
 {
   "name": "prj1-sol",
   "version": "1.0.0",
-  "description": "Name:\t\tXXX B-Number:\tXXX Email:\t\tXXX",
+  "description": "Name: XXX B-Number: XXX Email: XXX",
   "main": "index.js",
+  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "shx rm -rf dist",
+    "build": "tsc",
+    "postbuild": "shx chmod a+x dist/index.js",
+    "watch": "tsc --watch",
+    "pretest": "npm run build",
+    "test": "mocha --reporter-options maxDiffSize=128000 dist/test",
+    "predebug-test": "npm run build",
+    "debug-test": "mocha --inspect-brk dist/test"
+
+    
   },
+  "type": "module",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.3.6",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.6.3",
+    "chai": "^4.3.8",
+    "esm": "^3.2.25",
+    "mocha": "^10.2.0",
+    "shx": "^0.3.4",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "cs544-js-utils": "https://sunybing:sunybing@zdu.binghamton.edu/cs544/lib/cs544-js-utils-0.0.1.tgz",
+    "cs544-node-utils": "https://sunybing:sunybing@zdu.binghamton.edu/cs544/lib/cs544-node-utils-0.0.1.tgz"
+  }
 }
