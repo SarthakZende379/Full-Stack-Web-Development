@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Name: XXX B-Number: XXX Email: XXX",
   "main": "index.js",
-  
   "scripts": {
     "clean": "shx rm -rf dist",
     "build": "tsc",
@@ -13,8 +12,6 @@
     "test": "mocha --reporter-options maxDiffSize=128000 dist/test",
     "predebug-test": "npm run build",
     "debug-test": "mocha --inspect-brk dist/test"
-
-    
   },
   "type": "module",
   "keywords": [],

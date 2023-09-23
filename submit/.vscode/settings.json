@@ -1,0 +1,4 @@
+{
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.focusAfterRun": "none"
+}
