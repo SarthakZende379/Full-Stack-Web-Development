@@ -16,7 +16,7 @@
     "declaration": true,
     "pretty": false,
     "noImplicitAny": true,
-    // "declaration": true,
+    "declaration": true,
     "declarationMap": true,
     "strictNullChecks": true,
   },

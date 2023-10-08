@@ -135,8 +135,6 @@ export class SensorTypeSearch {
   readonly modelNumber?: string;
   readonly quantity?: string;
   readonly unit?: string;
-  minLimits: any;
-  maxLimits: any;
 
   constructor(req: Checked<FlatReq>) {
     Object.assign(this, req);
@@ -167,8 +165,6 @@ const SENSOR_TYPE_SEARCH_CHECKS = {
 export class SensorSearch {
   readonly id?: SensorId;
   readonly sensorTypeId?: SensorTypeId;
-  period: undefined;
-  expected: any;
 
   constructor(req: Checked<FlatReq>) {
     Object.assign(this, req);
@@ -199,8 +195,6 @@ export class SensorReadingSearch {
   readonly maxTimestamp: Timestamp;
   readonly minValue: number;
   readonly maxValue: number;
-  timestamp: undefined;
-  value: undefined;
 
   constructor(req: Checked<FlatReq>) {
     this.sensorId = req.sensorId;
