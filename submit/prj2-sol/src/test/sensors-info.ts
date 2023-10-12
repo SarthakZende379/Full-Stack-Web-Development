@@ -13,6 +13,19 @@ import { assert, expect } from 'chai';
 
 
 describe('sensors', () => {
+  let sensorsInfo: SensorsInfo;
+  let dao: SensorsDao;
+
+  beforeEach(async () => {
+    dao = await MemDao.setup();
+    const sensorsInfoResult = await makeSensorsInfo(dao);
+    assert(sensorsInfoResult.isOk === true);
+    sensorsInfo = sensorsInfoResult.val;
+  });
+
+  afterEach(async () => {
+    await MemDao.tearDown(dao);
+  });
 
   describe('sensor-type add validity checks', () => {
 
@@ -105,7 +118,11 @@ describe('sensors', () => {
     });
 
     it('must error EXISTS on duplicate sensor', async () => {
-      assert.fail('TODO');
+      // Add a sensor with the same ID as an existing one
+      const addResult = await sensorsInfo.addSensor(DATA.SENSOR1);
+      assert(addResult.isOk === false);
+      expect(addResult.errors).to.have.length(1);
+      expect(addResult.errors[0].options.code).to.equal('EXISTS');
     });
 
     it ('must detect missing required fields', async () => {
@@ -195,7 +212,14 @@ describe('sensors', () => {
     });
 
     it('must error EXISTS on duplicate sensor reading', async () => {
-      assert.fail('TODO');
+      // Add a sensor reading with the same sensorId and timestamp as an existing one
+      const addResult1 = await sensorsInfo.addSensorReading(DATA.SENSOR_READING1);
+      assert(addResult1.isOk === true);
+    
+      const addResult2 = await sensorsInfo.addSensorReading(DATA.SENSOR_READING1);
+      assert(addResult2.isOk === false);
+      expect(addResult2.errors).to.have.length(1);
+      expect(addResult2.errors[0].options.code).to.equal('EXISTS');
     });
 
     it ('must detect missing required fields', async () => {
