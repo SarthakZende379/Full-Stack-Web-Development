@@ -1,6 +1,6 @@
 import { SensorType, Sensor, SensorReading, SensorTypeSearch, SensorSearch, SensorReadingSearch } from './validators.js';
 import { Errors, } from 'cs544-js-utils';
-// import * as mongo from 'mongodb';
+import * as mongo from 'mongodb';
 import { MongoClient, Db } from 'mongodb';
 import { ObjectId } from 'mongodb';
 /** All that this DAO should do is maintain a persistent data for sensors.
@@ -359,3 +359,14 @@ private buildSensorQuery(search: SensorSearch) {
 //mongo err.code on inserting duplicate entry
 const MONGO_DUPLICATE_CODE = 11000;
 
+function checkDuplicateError(err: Error, data: object, dataType: string)  {
+  const v = JSON.stringify(data);
+  if (err instanceof mongo.MongoServerError
+    && err.code === MONGO_DUPLICATE_CODE) {
+    return Errors.errResult(`duplicate ${dataType} ${v}`, 'EXISTS');
+  }
+  else {
+    const msg = `cannot add ${dataType} for ${v} to DB: ${err}`;
+    return Errors.errResult(msg, 'DB');
+  }
+}
