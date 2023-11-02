@@ -1,0 +1,183 @@
+{
+  "sensorTypes": [
+    {
+      "id": "hw103",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-103",
+      "quantity": "pressure",
+      "unit": "Pa",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "hw101",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-101",
+      "quantity": "temperature",
+      "unit": "F",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge102",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-102",
+      "quantity": "pressure",
+      "unit": "PSI",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge100",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-100",
+      "quantity": "temperature",
+      "unit": "C",
+      "min": "10",
+      "max": "100"
+    }
+  ],
+  "sensors": [
+    {
+      "id": "s119",
+      "sensorTypeId": "ge100",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s118",
+      "sensorTypeId": "ge100",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s117",
+      "sensorTypeId": "ge100",
+      "period": "30",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s116",
+      "sensorTypeId": "ge100",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s115",
+      "sensorTypeId": "ge100",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s114",
+      "sensorTypeId": "ge102",
+      "period": "30",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s113",
+      "sensorTypeId": "ge102",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s112",
+      "sensorTypeId": "ge102",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s111",
+      "sensorTypeId": "ge102",
+      "period": "30",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s110",
+      "sensorTypeId": "ge102",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s109",
+      "sensorTypeId": "hw101",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s108",
+      "sensorTypeId": "hw101",
+      "period": "30",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s107",
+      "sensorTypeId": "hw101",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s106",
+      "sensorTypeId": "hw101",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s105",
+      "sensorTypeId": "hw101",
+      "period": "30",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s104",
+      "sensorTypeId": "hw103",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s103",
+      "sensorTypeId": "hw103",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s102",
+      "sensorTypeId": "hw103",
+      "period": "30",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s101",
+      "sensorTypeId": "hw103",
+      "period": "20",
+      "min": "20",
+      "max": "90"
+    },
+    {
+      "id": "s100",
+      "sensorTypeId": "hw103",
+      "period": "10",
+      "min": "20",
+      "max": "90"
+    }
+  ],
+  "sensorReadings": []
+}
