@@ -1,0 +1,114 @@
+{
+  "sensorTypes": [
+    {
+      "id": "hw111",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-111",
+      "quantity": "velocity",
+      "unit": "cm/sec",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "hw109",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-109",
+      "quantity": "pressure",
+      "unit": "Pa",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "hw107",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-107",
+      "quantity": "temperature",
+      "unit": "F",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "hw105",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-105",
+      "quantity": "velocity",
+      "unit": "cm/sec",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "hw103",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-103",
+      "quantity": "pressure",
+      "unit": "Pa",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "hw101",
+      "manufacturer": "Honeywell",
+      "modelNumber": "HW-101",
+      "quantity": "temperature",
+      "unit": "F",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge110",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-110",
+      "quantity": "velocity",
+      "unit": "meters/sec",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge108",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-108",
+      "quantity": "pressure",
+      "unit": "PSI",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge106",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-106",
+      "quantity": "temperature",
+      "unit": "C",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge104",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-104",
+      "quantity": "velocity",
+      "unit": "meters/sec",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge102",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-102",
+      "quantity": "pressure",
+      "unit": "PSI",
+      "min": "10",
+      "max": "100"
+    },
+    {
+      "id": "ge100",
+      "manufacturer": "General Electric",
+      "modelNumber": "GE-100",
+      "quantity": "temperature",
+      "unit": "C",
+      "min": "10",
+      "max": "100"
+    }
+  ],
+  "sensors": [],
+  "sensorReadings": []
+}
