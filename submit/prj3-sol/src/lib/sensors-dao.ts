@@ -117,7 +117,7 @@ export class SensorsDao {
   {
     try {
       const { id: _id } = sensorType;
-      const update = { ...sensorType, _id };
+      const update = { ...sensorType, _id };               //done
       await this.sensorTypes.insertOne(update);
       return Errors.okResult(sensorType);
     }
@@ -175,7 +175,7 @@ export class SensorsDao {
       delete query.count; delete query.index;
       if (!search.id) delete query._id;
       const projection = { _id: 0 };
-      const sensorTypes = await this.sensorTypes.find(query, {projection})
+      const sensorTypes = await this.sensorTypes.find(query, {projection})            // done 
 	.sort('id')
         .skip(index)
 	.limit(count)
