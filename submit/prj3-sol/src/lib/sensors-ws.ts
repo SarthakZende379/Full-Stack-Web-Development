@@ -112,7 +112,8 @@ function doFindSensorTypes(app: Express.Application) {
       }
 
       // You have successfully retrieved sensor types
-      const response = selfResult<SensorType[]>(req, result.val);
+      const resp = result.val.map((res:SensorType)=>selfResult<SensorType>(req,res)).sort((res:SensorType)=>res.id);
+      const response = selfResult<SensorType[]>(req,resp);
       res.json(response);
     } catch (err) {
       const mapped = mapResultErrors(err);
@@ -125,8 +126,8 @@ function doFindSensorTypes(app: Express.Application) {
 function doGetSensorType(app: Express.Application) {
   return async function (req: Express.Request, res: Express.Response) {
     try {
-      const { id } = req.params;
-      const result = await app.locals.sensorsInfo.findSensorTypes({ id });
+      
+      const result = await app.locals.sensorsInfo.findSensorTypes({ ...req.params });
 
       if (result.isOk) {
         const sensorTypes = result.val;
@@ -156,16 +157,12 @@ function doGetSensorType(app: Express.Application) {
 function doGetSensor(app: Express.Application) {
   return async (req: Express.Request, res: Express.Response) => {
     try {
-      const { id } = req.params; // Extract the ID from the request parameters
-      const search = { id };
-      const result = await app.locals.sensorsInfo.findSensors(search);
-
+      const result = await app.locals.sensorsInfo.findSensors({...req.params});
       if (result.isOk) {
         const sensors = result.val;
-
         if (sensors.length > 0) {
-          const sensor = sensors[0]; // Assuming only one sensor is expected
-          res.status(STATUS.OK).json(sensor);
+          const response = selfResult<SensorType>(req, sensors[0]); // Assuming only one sensor is expected
+          res.status(STATUS.OK).json(response);
         } else {
           const notFoundResponse = {
             error: 'Sensor not found',
@@ -201,7 +198,6 @@ function doCreateSensorType(app: Express.Application) {
       res.status(STATUS.CREATED).json(response);
     } else {
       const errResult = result;
-      console.error('Error adding sensor type:', errResult.err); // Log the error
       const mapped = mapResultErrors(errResult);
       res.status(mapped.status).json(mapped);
     }
@@ -212,18 +208,20 @@ function doCreateSensorType(app: Express.Application) {
 function doFindSensors(app: Express.Application) {
   return async (req: RequestWithQuery, res: Express.Response) => {
     try {
-      const search: SensorSearch = req.query;
-      const result = await app.locals.sensorsInfo.findSensors(search);
-      if (result.val.length === 0) {
-        const successResponse = selfResult<Sensor[]>(req, [], STATUS.OK);
-        res.status(STATUS.OK).json(successResponse);
-      } else {
-        const successResponse = selfResult<Sensor[]>(req, result.val, STATUS.OK);
-        res.status(STATUS.OK).json(successResponse);
+      const { query } = req; 
+      const result = await app.locals.sensorsInfo.findSensors({...query});
+      if (!result.isOk) {
+        // Handle the error appropriately, for example:
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
       }
+      // You have successfully retrieved sensor types
+      const resp = result.val.map((res:Sensor)=>selfResult<Sensor>(req,res)).sort((res:Sensor)=>res.id);
+      const response = selfResult<Sensor[]>(req,resp);
+      res.json(response);
     } catch (err) {
-      const errorResponse = mapResultErrors(err);
-      res.status(errorResponse.status).json(errorResponse);
+      const mapped = mapResultErrors(err);
+      res.status(mapped.status).json(mapped);
     }
   };
 }
@@ -250,11 +248,18 @@ function doCreateSensorReading(app: Express.Application) {
 function doFindSensorReadings(app: Express.Application) {
   return async (req: RequestWithQuery, res: Express.Response) => {
     try {
-      const result = await app.locals.sensorsInfo.findSensorReadings({...req.query});
-      
+      const result = await app.locals.sensorsInfo.findSensorReadings({ ...req.query });
       if (result.isOk) {
-        const foundSensorReadings = result.val;
-        const response = selfResult<SensorReading[]>(req, foundSensorReadings, STATUS.OK);
+        const foundSensorReadings = result.val || [];
+        // Filter out any invalid or undefined sensor readings
+        const validSensorReadings = foundSensorReadings.filter(
+          (reading: SensorReading) => reading && typeof reading.timestamp === 'number'
+        );
+        // Sort the valid sensor readings by timestamp
+        const sortedSensorReadings = validSensorReadings.sort(
+          (a: SensorReading, b: SensorReading) => a.timestamp - b.timestamp
+        );
+        const response = selfResult<SensorReading[]>(req, sortedSensorReadings, STATUS.OK);
         res.json(response);
       } else {
         const mapped = mapResultErrors(result);
