@@ -99,7 +99,7 @@ function doCreateSensor(app: Express.Application) {
  }
 
  // Route handler for finding sensor types
-function doFindSensorTypes(app: Express.Application) {
+ function doFindSensorTypes(app: Express.Application) {
   return async (req: RequestWithQuery, res: Express.Response) => {
     try {
       const { query } = req; // Destructure the query object from the request
@@ -157,7 +157,7 @@ function doGetSensorType(app: Express.Application) {
 function doGetSensor(app: Express.Application) {
   return async (req: Express.Request, res: Express.Response) => {
     try {
-      const result = await app.locals.sensorsInfo.findSensors({...req.params});
+      const result = await app.locals.sensorsInfo.findSensors({ ...req.params });
       if (result.isOk) {
         const sensors = result.val;
         if (sensors.length > 0) {
@@ -165,8 +165,11 @@ function doGetSensor(app: Express.Application) {
           res.status(STATUS.OK).json(response);
         } else {
           const notFoundResponse = {
-            error: 'Sensor not found',
-            message: 'No sensor with the specified ID was found.',
+            isOk: false, // Indicate that the operation was not successful
+            errors: [{
+              options: { code: 'NOT_FOUND' },
+              message: 'No sensor with the specified ID was found.',
+            }],
           };
           res.status(STATUS.NOT_FOUND).json(notFoundResponse);
         }
@@ -211,7 +214,6 @@ function doFindSensors(app: Express.Application) {
       const { query } = req; 
       const result = await app.locals.sensorsInfo.findSensors({...query});
       if (!result.isOk) {
-        // Handle the error appropriately, for example:
         res.status(500).json({ error: "Internal Server Error" });
         return;
       }
@@ -259,7 +261,9 @@ function doFindSensorReadings(app: Express.Application) {
         const sortedSensorReadings = validSensorReadings.sort(
           (a: SensorReading, b: SensorReading) => a.timestamp - b.timestamp
         );
-        const response = selfResult<SensorReading[]>(req, sortedSensorReadings, STATUS.OK);
+        // You have successfully retrieved sensor readings
+        const resp = sortedSensorReadings.map((res: SensorReading) => selfResult<SensorReading>(req, res)).sort((res: SensorReading) => res.timestamp);
+        const response = selfResult<SensorReading[]>(req, resp, STATUS.OK);
         res.json(response);
       } else {
         const mapped = mapResultErrors(result);
@@ -270,14 +274,6 @@ function doFindSensorReadings(app: Express.Application) {
       res.status(mapped.status).json(mapped);
     }
   };
-}
-
-function doTrace(app: Express.Application) {
-  return (async function(req: Express.Request, res: Express.Response, 
-			 next: Express.NextFunction) {
-    console.log(req.method, req.originalUrl);
-    next();
-  });
 }
 
 
