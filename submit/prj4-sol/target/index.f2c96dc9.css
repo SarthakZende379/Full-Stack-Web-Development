@@ -1,0 +1,133 @@
+:root {
+  --base-color: 0, 0, 192;
+  --color09: rgb(var(--base-color));
+  --color01: rgba(var(--base-color), .05);
+  --color02: rgba(var(--base-color), .1);
+  --color03: rgba(var(--base-color), .15);
+  --color04: rgba(var(--base-color), .3);
+  --max-width: 800px;
+}
+
+body {
+  color: var(--color09);
+  background-color: var(--color01);
+  max-width: var(--max-width);
+}
+
+.scroll {
+  width: 100%;
+  padding: 10pt 0;
+  font-size: 150%;
+}
+
+.scroll a[rel="prev"] {
+  float: left;
+}
+
+.scroll a[rel="next"] {
+  float: right;
+}
+
+table {
+  width: 100%;
+}
+
+table th {
+  background-color: var(--color04);
+}
+
+table th, table td {
+  border: 2px;
+  padding: 4pt 20pt;
+}
+
+table td.is-copy-source {
+  border-style: dotted;
+}
+
+table .numeric {
+  text-align: right;
+}
+
+table tr:nth-child(2n) {
+  background-color: var(--color02);
+}
+
+table tr:nth-child(odd) {
+  background-color: var(--color03);
+}
+
+h1 {
+  text-align: center;
+}
+
+.grid-form {
+  grid-gap: 2vw;
+  grid-template-columns: .5fr 1fr;
+  padding: 10px;
+  display: grid;
+}
+
+input[type="checkbox"] {
+  width: 5%;
+}
+
+input, textarea, select {
+  width: 70%;
+}
+
+button {
+  background-color: var(--color04);
+  border-radius: 10px;
+  width: 60px;
+}
+
+.grid-form button {
+  width: 40%;
+}
+
+button#clear {
+  background-color: red;
+}
+
+label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.error {
+  color: red;
+}
+
+footer li {
+  list-style: none;
+  display: inline;
+}
+
+footer li + li:before {
+  content: " | ";
+}
+
+.required {
+  color: red;
+}
+
+.results dl {
+  grid-template-columns: .5fr 1fr;
+  padding: 10px;
+  display: grid;
+}
+
+.results dt {
+  font-weight: bold;
+}
+
+.show {
+  visibility: visible;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+/*# sourceMappingURL=index.f2c96dc9.css.map */

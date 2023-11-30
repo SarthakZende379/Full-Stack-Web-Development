@@ -1,0 +1,77 @@
+.tabs .tab input.tab-control, .tabs .tab input.tab-control:not(:checked) ~ .tab-content {
+  display: none;
+}
+
+.tabs .tab .tab-title {
+  float: left;
+  min-width: 5em;
+  display: inline;
+}
+
+.tabs .tab .tab-content {
+  float: right;
+  width: 100%;
+  margin: 2.2em 0 0 -100%;
+}
+
+.tabs .tab .tab-title label {
+  cursor: pointer;
+}
+
+.tabs .tab .tab-title {
+  box-sizing: border-box;
+  margin: 0;
+  padding: .5em 0;
+  font-size: 1em;
+  font-weight: normal;
+  overflow: hidden;
+}
+
+.tabs .tab .tab-content {
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  padding: .5em .75em;
+}
+
+.tabs .tab .tab-title label {
+  z-index: 1;
+  background: #ccc;
+  border: 1px solid #aaa;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 30px;
+  padding: .25em .75em;
+  font-weight: 100;
+  display: block;
+}
+
+.tabs input.tab-control:first-child ~ .tab .tab-title {
+  padding-left: 1em;
+}
+
+.tabs .tab .tab-content {
+  z-index: 2;
+  position: relative;
+  top: -1px;
+}
+
+.tabs .tab input.tab-control:checked ~ .tab-title label {
+  z-index: 3;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-bottom: none;
+  font-weight: 600;
+  position: relative;
+}
+
+.tabs input.tab-control:not(:checked) ~ .tab-title label:hover {
+  background: #aaa;
+}
+
+.tabs {
+  float: left;
+  width: 100%;
+}
+
+/*# sourceMappingURL=index.c810dac2.css.map */
