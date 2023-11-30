@@ -1,0 +1,131 @@
+:root {
+  --base-color: 0, 0, 192;
+  --color09: rgb(var(--base-color));
+  --color01: rgba(var(--base-color), 0.05);
+  --color02: rgba(var(--base-color), 0.1);
+  --color03: rgba(var(--base-color), 0.15);
+  --color04: rgba(var(--base-color), 0.3);
+  --max-width: 800px;
+}
+
+body {
+  color: var(--color09);
+  background-color: var(--color01);
+  max-width: var(--max-width);
+}
+
+.scroll {
+  font-size: 150%;
+  padding: 10pt 0pt;
+  width: 100%;
+}
+
+.scroll a[rel="prev"] {
+  float: left;
+}
+.scroll a[rel="next"] {
+  float: right;
+}
+
+table {
+  width: 100%;
+  /* border-collapse: collapse; */
+}
+table th {
+  background-color: var(--color04);
+}
+
+table th,
+table td {
+  padding: 4pt 20pt;
+  border: 2px;
+}
+
+table td.is-copy-source {
+  border-style: dotted;
+}
+
+table .numeric {
+  text-align: right;
+}
+table tr:nth-child(even) {
+  background-color: var(--color02);
+}
+table tr:nth-child(odd) {
+  background-color: var(--color03);
+}
+
+h1 {
+  text-align: center;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  grid-gap: 2vw;
+  padding: 10px;
+} 
+
+input[type="checkbox"] {
+  width: 5%;
+}
+
+input, textarea, select {
+  width: 70%;
+}
+
+button {
+  width: 60px;
+  border-radius: 10px;
+  background-color: var(--color04);
+}
+
+.grid-form button {
+  width: 40%;
+}
+
+button#clear {
+  background-color: red;
+}
+
+label {
+  font-weight: bold;
+  text-align: right;
+}
+
+
+.error {
+  color: red;
+}
+
+footer li {
+  list-style: none;
+  display: inline;
+}
+footer li + li::before {
+  content: " | ";
+}
+
+.required {
+  color: red;
+}
+
+.results dl {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  /*grid-gap: 2vw;*/
+  padding: 10px;
+}
+
+.results dt {
+  font-weight: bold;
+}
+
+.show {
+  visibility: visible;
+}
+
+.hide {
+  visibility: hidden;
+}
+
