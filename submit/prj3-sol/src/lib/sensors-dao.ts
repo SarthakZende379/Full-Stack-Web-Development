@@ -117,12 +117,12 @@ export class SensorsDao {
   {
     try {
       const { id: _id } = sensorType;
-      const update = { ...sensorType, _id };               //done
+      const update = { ...sensorType, _id };
       await this.sensorTypes.insertOne(update);
       return Errors.okResult(sensorType);
     }
     catch (err) {
-      return checkDuplicateError(err, sensorType, 'sensorType');
+      return checkDuplicateError(err, sensorType, 'sensorType', 'id');
     }
   }
 
@@ -139,7 +139,7 @@ export class SensorsDao {
       return Errors.okResult(sensor);
     }
     catch (err) {
-      return checkDuplicateError(err, sensor, 'sensor');
+      return checkDuplicateError(err, sensor, 'sensor', 'id');
     }
   }
 
@@ -156,7 +156,8 @@ export class SensorsDao {
       return Errors.okResult(sensorReading);
     }
     catch (err) {
-      return checkDuplicateError(err, sensorReading, 'sensorReading');
+      return checkDuplicateError(err, sensorReading, 'sensorReading',
+				 'timestamp');
     }
   }
 
@@ -175,7 +176,7 @@ export class SensorsDao {
       delete query.count; delete query.index;
       if (!search.id) delete query._id;
       const projection = { _id: 0 };
-      const sensorTypes = await this.sensorTypes.find(query, {projection})            // done 
+      const sensorTypes = await this.sensorTypes.find(query, {projection})
 	.sort('id')
         .skip(index)
 	.limit(count)
@@ -252,11 +253,13 @@ export class SensorsDao {
 //mongo err.code on inserting duplicate entry
 const MONGO_DUPLICATE_CODE = 11000;
 
-function checkDuplicateError(err: Error, data: object, dataType: string)  {
+function checkDuplicateError(err: Error, data: object, dataType: string,
+			     widget: string)  {
   const v = JSON.stringify(data);
   if (err instanceof mongo.MongoServerError
     && err.code === MONGO_DUPLICATE_CODE) {
-    return Errors.errResult(`duplicate ${dataType} ${v}`, 'EXISTS');
+    const msg = `duplicate ${dataType} ${widget}`;
+    return Errors.errResult(msg, { code: 'EXISTS', widget });
   }
   else {
     const msg = `cannot add ${dataType} for ${v} to DB: ${err}`;

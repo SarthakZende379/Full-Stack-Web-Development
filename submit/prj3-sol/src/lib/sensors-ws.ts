@@ -5,15 +5,13 @@ import assert from 'assert';
 import STATUS from 'http-status';
 
 import { SensorsInfo } from './sensors-info.js';
-import { SensorType,SensorTypeSearch, Sensor, SensorReading, SensorSearch, SensorReadingSearch,  } from './validators.js';
+import { SensorType, Sensor, SensorReading } from './validators.js';
 import { Errors } from 'cs544-js-utils';
 import { DEFAULT_INDEX, DEFAULT_COUNT } from './params.js';
-import { Request, Response } from 'express';
 
 import { Link, SelfLinks, NavLinks,
 	 SuccessEnvelope, PagedEnvelope, ErrorEnvelope }
   from './response-envelopes.js';
-import { types } from 'util';
 
 
 //Based on 
@@ -58,224 +56,111 @@ function setupRoutes(app: Express.Application) {
   //if uncommented, all requests are traced on the console
   //app.use(doTrace(app));
 
-  //TODO: add routes  
-// Create a new sensor
-app.put(`${base}/sensors`, doCreateSensor(app)); // Handles the creation of a new sensor
-app.get(`${base}/sensors`, doFindSensors(app)); // Handles the retrieval of sensors
-app.put(`${base}/sensor-readings`, doCreateSensorReading(app)); // Handles the creation of sensor readings
-app.get(`${base}/sensor-readings`, doFindSensorReadings(app)); // Handles the retrieval of sensor readings
-app.get(`${base}/sensors/:id`, doGetSensor(app)); // Handles the retrieval of a specific sensor by ID
-app.get(`${base}/sensor-types/:id`, doGetSensorType(app)); // Handles the retrieval of a specific sensor type by ID
-app.put(`${base}/sensor-types`, doCreateSensorType(app)); // Handles the creation of a new sensor type
-app.get(`${base}/sensor-types`, doFindSensorTypes(app)); // Handles the retrieval of sensor types
+  app.put(`${base}/sensor-types`, doCreate<SensorType>(app, 'addSensorType'));
+  app.get(`${base}/sensor-types/:id`,
+	  doGet<SensorType>(app, 'findSensorTypes'));
+  app.get(`${base}/sensor-types`, doFind<SensorType>(app, 'findSensorTypes'));
+
+  app.put(`${base}/sensors`, doCreate<Sensor>(app, 'addSensor'));
+  app.get(`${base}/sensors/:id`, doGet<Sensor>(app, 'findSensors'));
+  app.get(`${base}/sensors`, doFind<Sensor>(app, 'findSensors'));
+
+  app.put(`${base}/sensor-readings`,
+	  doCreate<SensorReading>(app, 'addSensorReading'));
+  app.get(`${base}/sensor-readings`,
+	  doFind<SensorReading>(app, 'findSensorReadings'));
+
   //must be last
   app.use(do404(app));  //custom handler for page not found
   app.use(doErrors(app)); //custom handler for internal errors
 }
-// TODO: add route handlers 
 
-// Route handler for creating a new sensor
-function doCreateSensor(app: Express.Application) {
-  return async (req: Express.Request, res: Express.Response) => {
-   try {
-    const result = await app.locals.sensorsInfo.addSensor({...req.body});
-    if (result.isOk) {
-     const createdSensor = result.val;
-     const { id: sensorId } = createdSensor;
-     res.location(selfHref(req, sensorId));
-     const response = selfResult<Sensor>(req, createdSensor, STATUS.CREATED);
-     res.status(STATUS.CREATED).json(response);
-    } else {
-     const errResult = result;
-     const mapped = mapResultErrors(errResult);
-     res.status(mapped.status).json(mapped);
-    }
-   } catch (err) {
-    const errorMessage = 'An error occurred while creating the sensor.';
-    console.error(errorMessage, err);
-    res.status(500).json({ error: errorMessage });
-   }
-  };
- }
-
- // Route handler for finding sensor types
- function doFindSensorTypes(app: Express.Application) {
-  return async (req: RequestWithQuery, res: Express.Response) => {
+function doCreate<T>(app: Express.Application, addFnName: string) {
+  return (async function(req: Express.Request, res: Express.Response) {
     try {
-      const { query } = req; // Destructure the query object from the request
-      const result = await app.locals.sensorsInfo.findSensorTypes({ ...query });
-
-      if (!result.isOk) {
-        // Handle the error appropriately, for example:
-        res.status(500).json({ error: "Internal Server Error" });
-        return;
-      }
-
-      // You have successfully retrieved sensor types
-      const resp = result.val.map((res:SensorType)=>selfResult<SensorType>(req,res)).sort((res:SensorType)=>res.id);
-      const response = selfResult<SensorType[]>(req,resp);
-      res.json(response);
-    } catch (err) {
-      const mapped = mapResultErrors(err);
-      res.status(mapped.status).json(mapped);
-    }
-  };
-}
-
-// Route handler for retrieving a specific sensor type by ID
-function doGetSensorType(app: Express.Application) {
-  return async function (req: Express.Request, res: Express.Response) {
-    try {
-      
-      const result = await app.locals.sensorsInfo.findSensorTypes({ ...req.params });
-
-      if (result.isOk) {
-        const sensorTypes = result.val;
-        if (sensorTypes.length > 0) {
-          const response = selfResult<SensorType>(req, sensorTypes[0]);
-          res.json(response);
-        } else {
-          res.status(404).json({ error: 'Sensor type not found' });
-        }
-      } else {
-        if (result.errorCode === 'DB') {
-          const errorMessage = 'A database error occurred while retrieving sensor types.';
-          console.error(errorMessage, result.error);
-          res.status(500).json({ error: errorMessage });
-        } else {
-          throw result;
-        }
-      }
-    } catch (err) {
-      const mapped = mapResultErrors(err);
-      res.status(mapped.status).json(mapped);
-    }
-  };
-}
-
-// Route handler for retrieving a sensor by ID
-function doGetSensor(app: Express.Application) {
-  return async (req: Express.Request, res: Express.Response) => {
-    try {
-      const result = await app.locals.sensorsInfo.findSensors({ ...req.params });
-      if (result.isOk) {
-        const sensors = result.val;
-        if (sensors.length > 0) {
-          const response = selfResult<SensorType>(req, sensors[0]); // Assuming only one sensor is expected
-          res.status(STATUS.OK).json(response);
-        } else {
-          const notFoundResponse = {
-            isOk: false, // Indicate that the operation was not successful
-            errors: [{
-              options: { code: 'NOT_FOUND' },
-              message: 'No sensor with the specified ID was found.',
-            }],
-          };
-          res.status(STATUS.NOT_FOUND).json(notFoundResponse);
-        }
-      } else {
-        if (result.errorCode === 'DB') {
-          const errorMessage = 'A database error occurred while retrieving the sensor.';
-          console.error(errorMessage, result.error);
-          res.status(500).json({ error: errorMessage });
-        } else {
-          throw result; // Throw the result for error handling
-        }
-      }
-    } catch (err) {
-      const mapped = mapResultErrors(err);
-      res.status(mapped.status).json(mapped);
-    }
-  };
-}
-
-// Route handler for creating a new sensor type
-function doCreateSensorType(app: Express.Application) {
-  return async (req: Express.Request, res: Express.Response) => {
-    const result = await app.locals.sensorsInfo.addSensorType(req.body);
-    if (result.isOk) {
-      const createdSensorType = result.val;
-      const { id } = createdSensorType;
+      const sensorsInfo = app.locals.sensorsInfo;
+      const result = await sensorsInfo[addFnName].call(sensorsInfo, req.body);
+      if (!result.isOk) throw result;
+      const sensorType = result.val;
+      const { id } = sensorType;
       res.location(selfHref(req, id));
-      const response = selfResult<SensorType>(req, createdSensorType, STATUS.CREATED);
+      const response = selfResult<T>(req, sensorType, STATUS.CREATED);
       res.status(STATUS.CREATED).json(response);
-    } else {
-      const errResult = result;
-      const mapped = mapResultErrors(errResult);
+    }
+    catch(err) {
+      const mapped = mapResultErrors(err);
       res.status(mapped.status).json(mapped);
     }
-  };
+  });
 }
 
-// Route handler for Find-Sensors
-function doFindSensors(app: Express.Application) {
-  return async (req: RequestWithQuery, res: Express.Response) => {
+
+function doGet<T>(app: Express.Application, findFnName: string) {
+  return (async function(req: Express.Request, res: Express.Response) {
     try {
-      const { query } = req; 
-      const result = await app.locals.sensorsInfo.findSensors({...query});
-      if (!result.isOk) {
-        res.status(500).json({ error: "Internal Server Error" });
-        return;
+      const { id } = req.params;
+      const sensorsInfo = app.locals.sensorsInfo;
+      const result = await sensorsInfo[findFnName].call(sensorsInfo, {id});
+      if (!result.isOk) throw result;
+      if (result.val.length === 0) {
+	throw Errors.errResult(`cannot find sensor-type ${id}`, 'NOT_FOUND');
       }
-      // You have successfully retrieved sensor types
-      const resp = result.val.map((res:Sensor)=>selfResult<Sensor>(req,res)).sort((res:Sensor)=>res.id);
-      const response = selfResult<Sensor[]>(req,resp);
+      console.assert(result.val.length === 1);
+      const response = selfResult<T>(req, result.val[0]);
       res.json(response);
-    } catch (err) {
+    }
+    catch(err) {
       const mapped = mapResultErrors(err);
       res.status(mapped.status).json(mapped);
     }
-  };
+  });
 }
 
-// Route handler for Create-Sensor-Reading
-function doCreateSensorReading(app: Express.Application) {
-  return async (req: Express.Request, res: Express.Response) => {
-    const result = await app.locals.sensorsInfo.addSensorReading({...req.body});
-    if (result.isOk) {
-      const createdSensorReading = result.val;
-      const { sensorId } = createdSensorReading;
-      res.location(selfHref(req, sensorId));
-      const response = selfResult<SensorReading>(req, createdSensorReading, STATUS.CREATED);
-      res.status(STATUS.CREATED).json(response);
-    } else {
-      const errResult = result;
-      const mapped = mapResultErrors(errResult);
-      res.status(mapped.status).json(mapped);
-    }
-  };
-}
-
-// Route handler for finding sensor readings
-function doFindSensorReadings(app: Express.Application) {
-  return async (req: RequestWithQuery, res: Express.Response) => {
+function doFind<T>(app: Express.Application, findFnName: string) {
+  return (async function(req: RequestWithQuery, res: Express.Response) {
     try {
-      const result = await app.locals.sensorsInfo.findSensorReadings({ ...req.query });
-      if (result.isOk) {
-        const foundSensorReadings = result.val || [];
-        // Filter out any invalid or undefined sensor readings
-        const validSensorReadings = foundSensorReadings.filter(
-          (reading: SensorReading) => reading && typeof reading.timestamp === 'number'
-        );
-        // Sort the valid sensor readings by timestamp
-        const sortedSensorReadings = validSensorReadings.sort(
-          (a: SensorReading, b: SensorReading) => a.timestamp - b.timestamp
-        );
-        // You have successfully retrieved sensor readings
-        const resp = sortedSensorReadings.map((res: SensorReading) => selfResult<SensorReading>(req, res)).sort((res: SensorReading) => res.timestamp);
-        const response = selfResult<SensorReading[]>(req, resp, STATUS.OK);
-        res.json(response);
-      } else {
-        const mapped = mapResultErrors(result);
-        res.status(mapped.status).json(mapped);
-      }
-    } catch (err) {
+      const q = { ...req.query };
+      q.index ??=  '0';
+      q.count ??= String(DEFAULT_COUNT);
+      //by getting one extra result, we ensure that we generate the
+      //next link only if there are more than count remaining results
+      q.count = String(Number(q.count) + 1); 
+      const sensorsInfo = app.locals.sensorsInfo;
+      const result = await sensorsInfo[findFnName].call(sensorsInfo, q);
+      if (!result.isOk) throw result;
+      const response = pagedResult<T>(req, 'id' as keyof T, result.val);
+      res.json(response);
+    }
+    catch(err) {
       const mapped = mapResultErrors(err);
       res.status(mapped.status).json(mapped);
     }
-  };
+  });
 }
 
+/*
+function doClear(app: Express.Application) {
+  return (async function(req: Express.Request, res: Express.Response) {
+    try {
+      const result = await app.locals.sensorsInfo.clear();
+      if (!result.isOk) throw result;
+      res.json(selfResult<undefined>(req, undefined));
+    }
+    catch(err) {
+      const mapped = mapResultErrors(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}
+*/
+
+function doTrace(app: Express.Application) {
+  return (async function(req: Express.Request, res: Express.Response, 
+			 next: Express.NextFunction) {
+    console.log(req.method, req.originalUrl);
+    next();
+  });
+}
 
 /** Default handler for when there is no route for a particular method
  *  and path.

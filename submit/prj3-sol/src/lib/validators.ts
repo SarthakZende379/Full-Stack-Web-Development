@@ -162,7 +162,7 @@ export class SensorTypeSearch {
     const sensorTypeSearch = new SensorTypeSearch(validResult.val);
     return Errors.okResult(sensorTypeSearch);
   }
-  
+
 };
 
 const SENSOR_TYPE_SEARCH_CHECKS = {
