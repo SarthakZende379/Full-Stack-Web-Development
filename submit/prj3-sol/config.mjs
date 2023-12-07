@@ -3,7 +3,7 @@ const CERT_BASE = `${process.env.HOME}/tmp/localhost-certs`;
 export default {
 
   service: {
-    dbUrl:  'mongodb://localhost:27017/sensors',
+    dbUrl:  "mongodb+srv://dev_rose:Atieno_20@raocluster.oautq.mongodb.net/sensors",
   },
 
   ws: {
