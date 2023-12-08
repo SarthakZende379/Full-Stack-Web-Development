@@ -329,4 +329,3 @@ const CORS_OPTIONS = {
   //response headers exposed to cross-origin requests
   exposedHeaders: [  'Location', 'Content-Type', ],
 };
-
