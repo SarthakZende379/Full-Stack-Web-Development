@@ -8,74 +8,93 @@ export function makeSensorsWs(url: string) {
 }
 
 export class SensorsWs {
-    //base url for these web services
-    private url;
+  //base url for these web services
+  private url;
 
-    constructor(url: string) {
-        this.url = url;
-    }
+  constructor(url: string) {
+    this.url = url;
+  }
 
-    /** Use web-services to create a sensor-type based on the parameters
-     *  specified in req.  If the response envelope is in error, then
-     *  return the errors within the Result object.  Otherwise, return a
-     *  success Result containing the information in the success
-     *  envelope converted to a display sensor-type.
-     */
-    async addSensorType(req: Record<string, string>): Promise<Errors.Result<Record<string, string>>> {
-        const url = new URL(`${this.url}/sensors-info/sensor-types`);
-        return addData(url, req, makeSensorTypeDisplay);
-    }
+  /** Use web-services to create a sensor-type based on the parameters
+   *  specified in req.  If the response envelope is in error, then
+   *  return the errors within the Result object.  Otherwise, return a
+   *  success Result containing the information in the success
+   *  envelope converted to a display sensor-type.
+   */
+  async addSensorType(
+    req: Record<string, string | number>
+  ): Promise<Errors.Result<Record<string, string>>> {
+    const url = new URL(`${this.url}/sensors-info/sensor-types`);
+    return addData(url, req, makeSensorTypeDisplay);
+  }
 
-    /** Use web-services to create a sensor based on the parameters
-     *  specified in req.  If the response envelope is in error, then
-     *  return the errors within the Result object.  Otherwise, return a
-     *  success Result containing the information in the success
-     *  envelope converted to a display sensor.
-     */
-    async addSensor(req: Record<string, string>): Promise<Errors.Result<Record<string, string>>> {
-        const url = new URL(`${this.url}/sensors-info/sensors`);
-        return addData(url, req, makeSensorDisplay);
-    }
+  /** Use web-services to create a sensor based on the parameters
+   *  specified in req.  If the response envelope is in error, then
+   *  return the errors within the Result object.  Otherwise, return a
+   *  success Result containing the information in the success
+   *  envelope converted to a display sensor.
+   */
+  async addSensor(
+    req: Record<string, string | number>
+  ): Promise<Errors.Result<Record<string, string>>> {
+    const url = new URL(`${this.url}/sensors-info/sensors`);
+    return addData(url, req, makeSensorDisplay);
+  }
 
-    /** Return the next page of display sensor-types using the absolute URL
-     *  constructed by concatenating relLink to the base URL for these
-     *  web services. The success return will possibly contain next
-     *  and prev relative URLs returned in the response, as well as
-     *  the returned sensor-types converted to display sensor-types.
-     */
-    async findSensorTypesByRelLink(relLink: string): Promise<Errors.Result<PagedValues>> {
-        return findData<SensorType>(new URL(this.url + relLink), makeSensorTypeDisplay);
-    }
 
-    /** Return the first page of display sensor-types based on the
-     *  search request req.  The success return will possibly contain next
-     *  and prev relative URLs returned in the response, as well as
-     *  the returned sensor-types converted to display sensor-types.
-     */
-    async findSensorTypesByReq(req: Record<string, string>): Promise<Errors.Result<PagedValues>> {
-        const baseUrl = `${this.url}/sensors-info/sensor-types`;
-        return findData<SensorType>(makeQueryUrl(baseUrl, req), makeSensorTypeDisplay);
-    }
+  /** Return the next page of display sensor-types using the absolute URL
+   *  constructed by concatenating relLink to the base URL for these
+   *  web services. The success return will possibly contain next
+   *  and prev relative URLs returned in the response, as well as
+   *  the returned sensor-types converted to display sensor-types.
+   */
+  async findSensorTypesByRelLink(
+    relLink: string
+  ): Promise<Errors.Result<PagedValues>> {
+    return findData<SensorType>(
+      new URL(this.url + relLink),
+      makeSensorTypeDisplay
+    );
+  }
 
-    /** Return the next page of display sensors using the absolute URL
-     *  constructed by concatenating relLink to the base URL for these
-     *  web services. The success return will possibly contain next
-     *  and prev relative URLs returned in the response, as well as
-     *  the returned sensor-types converted to display sensors.
-     */
-    async findSensorsByRelLink(relLink: string): Promise<Errors.Result<PagedValues>> {
-        return findData<Sensor>(new URL(this.url + relLink), makeSensorDisplay);
-    }
+  /** Return the first page of display sensor-types based on the
+   *  search request req.  The success return will possibly contain next
+   *  and prev relative URLs returned in the response, as well as
+   *  the returned sensor-types converted to display sensor-types.
+   */
+  async findSensorTypesByReq(
+    req: Record<string, string>
+  ): Promise<Errors.Result<PagedValues>> {
+    const baseUrl = `${this.url}/sensors-info/sensor-types`;
+    return findData<SensorType>(
+      makeQueryUrl(baseUrl, req),
+      makeSensorTypeDisplay
+    );
+  }
 
-    /** Return the first page of display sensors based on the search
-     *  request req.  The success return will possibly contain next and
-     *  prev relative URLs returned in the response, as well as the
-     *  returned sensor-types converted to display sensors.
-     */
-    async findSensorsByReq(req: Record<string, string>): Promise<Errors.Result<PagedValues>> {
-        const baseUrl = `${this.url}/sensors-info/sensors`;
-        return findData<Sensor>(makeQueryUrl(baseUrl, req), makeSensorDisplay);
-    }
+  /** Return the next page of display sensors using the absolute URL
+   *  constructed by concatenating relLink to the base URL for these
+   *  web services. The success return will possibly contain next
+   *  and prev relative URLs returned in the response, as well as
+   *  the returned sensor-types converted to display sensors.
+   */
+  async findSensorsByRelLink(
+    relLink: string
+  ): Promise<Errors.Result<PagedValues>> {
+    return findData<Sensor>(new URL(this.url + relLink), makeSensorDisplay);
+  }
+
+  /** Return the first page of display sensors based on the search
+   *  request req.  The success return will possibly contain next and
+   *  prev relative URLs returned in the response, as well as the
+   *  returned sensor-types converted to display sensors.
+   */
+  async findSensorsByReq(
+    req: Record<string, string>
+  ): Promise<Errors.Result<PagedValues>> {
+    const baseUrl = `${this.url}/sensors-info/sensors`;
+    return findData<Sensor>(makeQueryUrl(baseUrl, req), makeSensorDisplay);
+  }
 }
 
 /** Make a suitable request to the web services at URL url to
@@ -87,11 +106,13 @@ export class SensorsWs {
  */
 async function addData<T>(
     url: URL,
-    data: Record<string, string>,
+    data: Record<string, string|number>,
     displayFn: (t: T) => Record<string, string>
 ): Promise<Errors.Result<Record<string, string>>> {
     let response;
     try {
+        console.log();
+        
         response = await fetch(url.toString(), {
             method: "PUT",
             headers: {
@@ -100,6 +121,7 @@ async function addData<T>(
             body: JSON.stringify(data),
         });
     } catch (err) {
+        
         return Errors.errResult(err);
     }
 
@@ -109,10 +131,13 @@ async function addData<T>(
     } catch (err) {
         return Errors.errResult(err);
     }
-
+    
     if (jsonData && jsonData.isOk) {
+        console.log(jsonData.result);
+        
         return Errors.okResult(displayFn(jsonData.result));
     } else {
+      
         const error = jsonData ? new Errors.ErrResult(jsonData.errors) : Errors.errResult('Unknown error');
         return error;
     }
@@ -120,9 +145,9 @@ async function addData<T>(
 
 /** a type representing scrollable results returned by find* services */
 export type PagedValues = {
-    values: Record<string, string>[];
-    next?: string;
-    prev?: string;
+    values: Record<string, string|number>[];
+    next?: string|number;
+    prev?: string|number;
 };
 
 /** Make a suitable request to the web services at URL url to
