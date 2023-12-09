@@ -29,7 +29,10 @@ body {
 
 table {
   width: 100%;
+<<<<<<< HEAD
   /* border-collapse: collapse; */
+=======
+>>>>>>> main
 }
 table th {
   background-color: var(--color04);
@@ -44,7 +47,10 @@ table td {
 table td.is-copy-source {
   border-style: dotted;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 table .numeric {
   text-align: right;
 }
@@ -64,13 +70,23 @@ h1 {
   grid-template-columns: 0.5fr 1fr;
   grid-gap: 2vw;
   padding: 10px;
+<<<<<<< HEAD
 } 
+=======
+}
+>>>>>>> main
 
 input[type="checkbox"] {
   width: 5%;
 }
 
+<<<<<<< HEAD
 input, textarea, select {
+=======
+input,
+textarea,
+select {
+>>>>>>> main
   width: 70%;
 }
 
@@ -93,7 +109,10 @@ label {
   text-align: right;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 .error {
   color: red;
 }
@@ -128,4 +147,7 @@ footer li + li::before {
 .hide {
   visibility: hidden;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main

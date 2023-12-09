@@ -8,6 +8,11 @@ type TabProps = {
   children?: React.ReactNode,
 };
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> main
 export default function Tab(props: TabProps) {
   const id = props.id;
   const tabbedId = `${id}-tab`;
@@ -25,3 +30,8 @@ export default function Tab(props: TabProps) {
     </section>
   );
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> main
