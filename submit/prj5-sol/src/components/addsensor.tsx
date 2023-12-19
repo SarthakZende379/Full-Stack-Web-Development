@@ -124,8 +124,6 @@ function Addsensor(props: AppProps) {
           name="addSenso-form"
           onSubmit={handleAddSensorSubmit}
         >
-<<<<<<< HEAD
-=======
           {" "}
           <label htmlFor="findSensorTypes-id">
             Sensor ID{" "}
@@ -156,7 +154,6 @@ function Addsensor(props: AppProps) {
               )}
             </span>
           </span>
->>>>>>> main
           <label htmlFor="findSensorTypes-id">
             Sensor Type ID{" "}
             <span className="required" title="Required">
@@ -192,38 +189,6 @@ function Addsensor(props: AppProps) {
               )}
             </span>
           </span>
-<<<<<<< HEAD
-          <label htmlFor="findSensorTypes-id">
-            Sensor ID{" "}
-            <span className="required" title="Required">
-              *
-            </span>
-          </label>
-          <span>
-            <input
-              onChange={handleAddSensorChange}
-              value={addSensor.id}
-              id="addSensor-id"
-              name="id"
-            />
-            <br />
-
-            <span id="addSensor-id error" className="addSensor-errors error">
-              {" "}
-              {formError && <div className="error">"id"{formError}</div>}
-              {fieldError && (
-                <div>
-                  {fieldError!.map((test, index) => (
-                    <div key={index}>
-                      {test.options?.widget === "id" && <p>{test.message}</p>}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </span>
-          </span>
-=======
->>>>>>> main
           <label htmlFor="findSensor-period">
             Period{" "}
             <span className="required" title="Required">
@@ -321,51 +286,29 @@ function Addsensor(props: AppProps) {
           {apiResponse && (
             <div style={{ width: "50%", marginBottom: "10px" }}>
               <div style={{ display: "flex", marginBottom: "5px" }}>
-<<<<<<< HEAD
-                <span style={{ fontWeight: "800", minWidth:"250px" }}>
-                  ID
-                </span>
-                <span>{apiResponse["Sensor ID"]}</span>
-              </div>
-              <div style={{ display: "flex", marginBottom: "5px" }}>
-                <span style={{ fontWeight: "800", minWidth:"250px" }}>
-=======
                 <span style={{ fontWeight: "800", minWidth: "250px" }}>ID</span>
                 <span>{apiResponse["Sensor ID"]}</span>
               </div>
               <div style={{ display: "flex", marginBottom: "5px" }}>
                 <span style={{ fontWeight: "800", minWidth: "250px" }}>
->>>>>>> main
                   Sensor Type ID
                 </span>
                 <span>{apiResponse["Sensor Type ID"]}</span>
               </div>
               <div style={{ display: "flex", marginBottom: "5px" }}>
-<<<<<<< HEAD
-                <span style={{ fontWeight: "800", minWidth:"250px" }}>
-=======
                 <span style={{ fontWeight: "800", minWidth: "250px" }}>
->>>>>>> main
                   Period
                 </span>
                 <span>{apiResponse["Period"]}</span>
               </div>
               <div style={{ display: "flex", marginBottom: "5px" }}>
-<<<<<<< HEAD
-                <span style={{ fontWeight: "800", minWidth:"250px" }}>
-=======
                 <span style={{ fontWeight: "800", minWidth: "250px" }}>
->>>>>>> main
                   Min Limit
                 </span>
                 <span>{apiResponse["Min Expected"]}</span>
               </div>
               <div style={{ display: "flex" }}>
-<<<<<<< HEAD
-                <span style={{ fontWeight: "800", minWidth:"250px" }}>
-=======
                 <span style={{ fontWeight: "800", minWidth: "250px" }}>
->>>>>>> main
                   Max Limit
                 </span>
                 <span>{apiResponse["Max Expected"]}</span>
